@@ -1,0 +1,82 @@
+namespace ToDoListBack
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            string message = "";
+            if (!Global.StartUp(ref message))
+            {
+                Console.WriteLine(message);
+                return;
+            }
+            //Global.db.DbFirst.IsCreateAttribute().CreateClassFile(Environment.CurrentDirectory + "\\DataObject", "DataObject");
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+            builder.Services.AddAuthorization();
+
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddHttpContextAccessor();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthorization();
+
+            var summaries = new[]
+            {
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            };
+
+            //app.MapGet("/weatherforecast", (HttpContext httpContext) =>
+            //{
+            //    var forecast = Enumerable.Range(1, 5).Select(index =>
+            //        new WeatherForecast
+            //        {
+            //            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            //            TemperatureC = Random.Shared.Next(-20, 55),
+            //            Summary = summaries[Random.Shared.Next(summaries.Length)]
+            //        })
+            //        .ToArray();
+            //    return forecast;
+            //})
+            //.WithName("GetWeatherForecast")
+            //.WithOpenApi();
+
+            app.MapPost("/login", (int id, string name, string password, string url) =>
+            {
+                if (Global.LoggedUsers.FindAll(it => it.Id == id).Count == 0)
+                {
+                    User user = new(id, name, password);
+                    user.AddUrl(url);
+                    Global.LoggedUsers.Add(user);
+                }
+                else
+                {
+                    var user = Global.LoggedUsers.Find(it => it.Id == id);
+                    if (user is not null)
+                    {
+                        if (user.AddUrl(url))
+                        {
+                        }
+                    }
+                }
+            })
+            .WithName("LoginPost")
+            .WithOpenApi();
+
+            app.Run();
+        }
+    }
+}
