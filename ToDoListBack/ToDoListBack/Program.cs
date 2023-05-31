@@ -54,27 +54,27 @@ namespace ToDoListBack
             //.WithName("GetWeatherForecast")
             //.WithOpenApi();
 
-            app.MapPost("/login", (int id, string name, string password, string url) =>
-            {
-                if (Global.LoggedUsers.FindAll(it => it.Id == id).Count == 0)
-                {
-                    User user = new(id, name, password);
-                    user.AddUrl(url);
-                    Global.LoggedUsers.Add(user);
-                }
-                else
-                {
-                    var user = Global.LoggedUsers.Find(it => it.Id == id);
-                    if (user is not null)
-                    {
-                        if (user.AddUrl(url))
-                        {
-                        }
-                    }
-                }
-            })
-            .WithName("LoginPost")
-            .WithOpenApi();
+            //app.MapPost("/login", (int id, string name, string password, string devId) =>
+            //{
+            //    if (Global.LoggedUsers.FindAll(it => it.Id == id).Count == 0)
+            //    {
+            //        User user = new(id, name, password);
+            //        user.AddDev(devId);
+            //        Global.LoggedUsers.Add(user);
+            //    }
+            //    else
+            //    {
+            //        var user = Global.LoggedUsers.Find(it => it.Id == id);
+            //        if (user is not null)
+            //        {
+            //            if (user.AddDev(devId))
+            //            {
+            //            }
+            //        }
+            //    }
+            //})
+            //.WithName("LoginPost")
+            //.WithOpenApi();
 
             app.Run();
         }
