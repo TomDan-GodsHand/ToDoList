@@ -2,8 +2,13 @@ namespace ToDoListClient.Views;
 
 public partial class Options : ContentPage
 {
-	public Options()
-	{
-		InitializeComponent();
-	}
+    public Options()
+    {
+        InitializeComponent();
+    }
+
+    private void ConnectButton_Clicked(object sender, EventArgs e)
+    {
+        Task.Run(() => { Global.Connect(); });
+    }
 }

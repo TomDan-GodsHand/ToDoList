@@ -6,6 +6,7 @@ namespace ToDoListClient
     {
         public static MauiApp CreateMauiApp()
         {
+            Global.Connect();
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
@@ -16,7 +17,7 @@ namespace ToDoListClient
                 });
 
 #if DEBUG
-		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

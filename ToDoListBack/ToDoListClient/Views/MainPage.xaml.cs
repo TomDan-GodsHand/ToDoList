@@ -25,5 +25,9 @@
         {
             await Shell.Current.GoToAsync("options");
         }
+
+        private void ReConnect_Clicked(object sender, EventArgs e)
+        {
+        }
     }
 }

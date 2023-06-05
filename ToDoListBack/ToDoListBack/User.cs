@@ -8,7 +8,7 @@ namespace ToDoListBack
         private string name;
         private string password;
         private IDictionary<string, IWebSocketConnection> dic_Sockets = new Dictionary<string, IWebSocketConnection>();
-        private List<string> ClipBoardMessage = new List<string>();
+        private string ClipBoardMessage = string.Empty;
         public string Password { get => password; }
         public string Name { get => name; }
         public string Id { get => id; }
@@ -52,18 +52,16 @@ namespace ToDoListBack
                 {
                     continue;
                 }
-                foreach (var messages in ClipBoardMessage)
-                {
-                    socketKey.Value.Send(messages + MessageType.Add);
-                    Console.WriteLine($"向{socketKey}发送{messages + MessageType.Add}");
-                }
+                socketKey.Value.Send(ClipBoardMessage + (int)MessageType.Add);
+                Console.WriteLine($"向{socketKey}发送{ClipBoardMessage + MessageType.Add}");
             }
         }
 
         public void Update(string messages, string url)
         {
-            if (ClipBoardMessage.Contains(messages)) return;
-            ClipBoardMessage.Add(messages);
+            if (ClipBoardMessage == messages) return;
+            ClipBoardMessage = messages;
+
             SyncClipBoard(url);
         }
     }

@@ -1,4 +1,4 @@
-﻿using System.Net.WebSockets;
+﻿using ToDoListClient;
 
 namespace ToDoListPC
 {
@@ -9,10 +9,10 @@ namespace ToDoListPC
         private string password;
         private string serverIp;
         private string serverPort;
-        private ClientWebSocket client;
-        private CancellationToken cancellationToken = new();
         private Uri connectUri;
-        private bool connected = false;
+        private WebSocketClient client;
+        private string SaveMesaage;
+        private string GetMessage;
 
         public ClipBoardClient(string id, string name, string password, string serverIp, string serverPort)
         {
@@ -21,9 +21,37 @@ namespace ToDoListPC
             Password = password;
             ServerIp = serverIp;
             ServerPort = serverPort;
-            client = new ClientWebSocket();
-            var task = Task.Run(async () => { connected = await ConnectWebSocket(); });
-            task.ContinueWith(t => { });
+            Clipboard.Default.ClipboardContentChanged += Clipboard_ClipboardContentChanged;
+            Connect();
+        }
+
+        private void Connect()
+        {
+            client = new($"ws://{serverIp}:{serverPort}", id, name, password);
+            client.OnOpen -= Client_OnOpen;
+            client.OnMessage -= Client_OnMessage;
+            client.OnClose -= Client_OnClose;
+            client.OnError -= Client_OnError;
+
+            client.OnOpen += Client_OnOpen;
+            client.OnMessage += Client_OnMessage;
+            client.OnClose += Client_OnClose;
+            client.OnError += Client_OnError;
+            client.Open();
+        }
+
+        private async void Clipboard_ClipboardContentChanged(object sender, EventArgs e)
+        {
+            if (Clipboard.Default.HasText)
+            {
+                var copyString = await Clipboard.Default.GetTextAsync();
+                if (GetMessage == copyString) return;
+                if (SaveMesaage != copyString)
+                {
+                    SaveMesaage = copyString;
+                    client.Send(SaveMesaage);
+                }
+            }
         }
 
         public string Id { get => id; set => id = value; }
@@ -31,24 +59,34 @@ namespace ToDoListPC
         public string Password { get => password; set => password = value; }
         public string ServerIp { get => serverIp; set => serverIp = value; }
         public string ServerPort { get => serverPort; set => serverPort = value; }
-        public bool Connected { get => connected; }
 
-        private async Task<bool> ConnectWebSocket()
+        private void Client_OnError(object sender, Exception ex)
         {
+        }
+
+        private void Client_OnClose(object sender, EventArgs e)
+        {
+        }
+
+        private void Client_OnMessage(object sender, string data)
+        {
+            //处理的消息错误将会忽略
             try
             {
-                cancellationToken = CancellationToken.None;
-                connectUri = new($"ws://{serverIp}:{serverPort}");
-                client.Options.SetRequestHeader("id", id);
-                client.Options.SetRequestHeader("name", name);
-                client.Options.SetRequestHeader("password", password);
-                await client.ConnectAsync(connectUri, cancellationToken);
+                data = data.Remove(data.Length - 1);
+                if (GetMessage != data)
+                {
+                    GetMessage = data;
+                    Clipboard.Default.SetTextAsync(GetMessage);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
             }
-            return true;
+        }
+
+        private void Client_OnOpen(object sender, EventArgs e)
+        {
         }
     }
 }
