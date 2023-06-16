@@ -70,7 +70,7 @@ namespace ToDoListBack.Properties {
         }
         
         /// <summary>
-        ///   查找类似 todolistbacksystem 的本地化字符串。
+        ///   查找类似 ToDoListDb 的本地化字符串。
         /// </summary>
         internal static string SqlDateBase_ {
             get {
@@ -88,7 +88,7 @@ namespace ToDoListBack.Properties {
         }
         
         /// <summary>
-        ///   查找类似 a5642435 的本地化字符串。
+        ///   查找类似 Aa5642435!qaz 的本地化字符串。
         /// </summary>
         internal static string SqlPassword_ {
             get {
@@ -106,7 +106,7 @@ namespace ToDoListBack.Properties {
         }
         
         /// <summary>
-        ///   查找类似 127.0.0.1 的本地化字符串。
+        ///   查找类似 www.tomdan.xyz 的本地化字符串。
         /// </summary>
         internal static string SqlUrl_ {
             get {
@@ -124,7 +124,7 @@ namespace ToDoListBack.Properties {
         }
         
         /// <summary>
-        ///   查找类似 root 的本地化字符串。
+        ///   查找类似 sa 的本地化字符串。
         /// </summary>
         internal static string SqlUser_ {
             get {

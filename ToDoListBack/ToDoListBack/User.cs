@@ -1,4 +1,5 @@
 ﻿using Fleck;
+using ToDoEntity;
 
 namespace ToDoListBack
 {
@@ -9,6 +10,7 @@ namespace ToDoListBack
         private string password;
         private IDictionary<string, IWebSocketConnection> dic_Sockets = new Dictionary<string, IWebSocketConnection>();
         private string ClipBoardMessage = string.Empty;
+        public ToDoGroup ToDoGroup { get; set; }
         public string Password { get => password; }
         public string Name { get => name; }
         public string Id { get => id; }

@@ -121,24 +121,24 @@
     <value />
   </data>
   <data name="SqlDateBase_" xml:space="preserve">
-    <value>todolistbacksystem</value>
+    <value>ToDoListDb</value>
   </data>
   <data name="SqlPassword" xml:space="preserve">
     <value />
   </data>
   <data name="SqlPassword_" xml:space="preserve">
-    <value>a5642435</value>
+    <value>Aa5642435!qaz</value>
   </data>
   <data name="SqlUrl" xml:space="preserve">
     <value />
   </data>
   <data name="SqlUrl_" xml:space="preserve">
-    <value>127.0.0.1</value>
+    <value>www.tomdan.xyz</value>
   </data>
   <data name="SqlUser" xml:space="preserve">
     <value />
   </data>
   <data name="SqlUser_" xml:space="preserve">
-    <value>root</value>
+    <value>sa</value>
   </data>
 </root>

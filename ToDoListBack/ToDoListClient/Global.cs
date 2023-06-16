@@ -1,20 +1,38 @@
-﻿using ToDoListPC;
+﻿using ToDoEntity;
+using ToDoListClient.Models;
 
 namespace ToDoListClient
 {
     public class Global
     {
-        private static string id = "TomDan";
-        private static string name = "TomDan";
-        private static string password = "123123";
+        public static User User { get; set; }
         public static ClipBoardClient client;
-        public string Id { get => id; set => id = value; }
-        public string Name { get => name; set => name = value; }
-        public string Password { get => password; set => password = value; }
+        public static HttpClient HttpClient { get; set; }
+        public static List<ToDoGroup> ToDoGroup { get; set; }
+
+        public static async void UpdateToDoList()
+        {
+        }
 
         public static void Connect()
         {
-            client = new ClipBoardClient(id, name, password, "43.136.132.25", "30001");
+            User = new User();
+            User.Id = "TomDan";
+            User.Name = "PC";
+            User.Password = "123123";
+            if (User is null) { return; }
+            client = new ClipBoardClient(User.Id, User.Name, User.Password, "43.136.132.25", "30001");
+        }
+
+        internal static void Ini()
+        {
+            ToDoGroup = new List<ToDoGroup>
+            {
+                new ToDoEntity.ToDoGroup(){
+                    Name="fasdf",Items = new List<ToDoTaskItem>(),
+                    Id = "asdfasdf"
+        }
+    };
         }
     }
 }

@@ -9,6 +9,5 @@ public partial class Options : ContentPage
 
     private void ConnectButton_Clicked(object sender, EventArgs e)
     {
-        Task.Run(() => { Global.Connect(); });
     }
 }

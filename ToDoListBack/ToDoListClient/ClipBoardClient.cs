@@ -1,6 +1,4 @@
-﻿using ToDoListClient;
-
-namespace ToDoListPC
+﻿namespace ToDoListClient
 {
     public class ClipBoardClient
     {
@@ -40,17 +38,22 @@ namespace ToDoListPC
             client.Open();
         }
 
-        private async void Clipboard_ClipboardContentChanged(object sender, EventArgs e)
+        private string copyString = "";
+
+        private void Clipboard_ClipboardContentChanged(object sender, EventArgs e)
         {
             if (Clipboard.Default.HasText)
             {
-                var copyString = await Clipboard.Default.GetTextAsync();
-                if (GetMessage == copyString) return;
-                if (SaveMesaage != copyString)
+                MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    SaveMesaage = copyString;
-                    client.Send(SaveMesaage);
-                }
+                    copyString = await Clipboard.Default.GetTextAsync();
+                    if (GetMessage == copyString) return;
+                    if (SaveMesaage != copyString)
+                    {
+                        SaveMesaage = copyString;
+                        client.Send(SaveMesaage + 2);
+                    }
+                });
             }
         }
 
@@ -77,7 +80,7 @@ namespace ToDoListPC
                 if (GetMessage != data)
                 {
                     GetMessage = data;
-                    Clipboard.Default.SetTextAsync(GetMessage);
+                    MainThread.BeginInvokeOnMainThread(() => { Clipboard.Default.SetTextAsync(GetMessage); });
                 }
             }
             catch (Exception ex)
@@ -85,8 +88,30 @@ namespace ToDoListPC
             }
         }
 
+        ~ClipBoardClient()
+        {
+            client?.Close();
+        }
+
         private void Client_OnOpen(object sender, EventArgs e)
         {
+        }
+
+        public void ReConnect()
+        {
+            if (client.State == System.Net.WebSockets.WebSocketState.Open)
+            {
+                return;
+            }
+            else
+            {
+                client.Open();
+            }
+        }
+
+        internal void Close()
+        {
+            client?.Close();
         }
     }
 }

@@ -99,7 +99,7 @@ namespace ToDoListClient
                         result = await client.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                     }
                     ////关闭WebSocket（服务端发起）
-                    //await ws.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+                    await client.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
                 }
                 catch (Exception ex)
                 {

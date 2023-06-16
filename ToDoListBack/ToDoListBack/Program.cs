@@ -76,7 +76,7 @@ namespace ToDoListBack
             //.WithName("LoginPost")
             //.WithOpenApi();
 
-            app.Run();
+            app.Run("");
         }
     }
 }

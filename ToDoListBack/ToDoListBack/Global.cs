@@ -1,5 +1,6 @@
 ﻿using Fleck;
 using SqlSugar;
+using ToDoListBack.Properties;
 
 namespace ToDoListBack
 {
@@ -49,6 +50,10 @@ namespace ToDoListBack
             {
                 GetMessage(message, socket);
             };
+            socket.OnError = Exception =>
+            {
+                Console.WriteLine(Exception.Message);
+            };
         };
 
         private static bool Login(IDictionary<string, string> headers, string clientUrl, IWebSocketConnection socket)
@@ -72,14 +77,6 @@ namespace ToDoListBack
             return true;
         }
 
-        private static void UpDataClipBoardToUser(string message, string clientUrl, string id)
-        {
-            if (LoggedUsers.ContainsKey(id))
-            {
-                LoggedUsers[id].Update(message.Remove(message.Length - 1), clientUrl);
-            }
-        }
-
         private static void GetMessage(string message, IWebSocketConnection socket)
         {
             string clientUrl = socket.ConnectionInfo.ClientIpAddress + ":" + socket.ConnectionInfo.ClientPort;
@@ -96,9 +93,26 @@ namespace ToDoListBack
                 case MessageType.Add:
                     UpDataClipBoardToUser(message, clientUrl, headers["id"]);
                     break;
+
+                case MessageType.UpdateToDoList:
+                    UpdateToDoList(message, clientUrl, headers["id"]);
+                    break;
             }
 
             Console.WriteLine(DateTime.Now.ToString() + "|服务器:【收到】来客户端网页:" + clientUrl + "的信息：\n" + message);
+        }
+
+        private static void UpdateToDoList(string message, string clientUrl, string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void UpDataClipBoardToUser(string message, string clientUrl, string id)
+        {
+            if (LoggedUsers.ContainsKey(id))
+            {
+                LoggedUsers[id].Update(message.Remove(message.Length - 1), clientUrl);
+            }
         }
 
         public static bool StartUp(ref string message)
@@ -107,25 +121,23 @@ namespace ToDoListBack
             {
                 #region 数据库相关
 
-                //                SqlSugarScope sqlSugar = new SqlSugarScope(new ConnectionConfig()
-                //                {
-                //                    DbType = DbType.MySql,
-                //#if DEBUG
-                //                    ConnectionString = $"server={Resources.SqlUrl_};Database={Resources.SqlDateBase_};Uid={Resources.SqlUser_};Pwd={Resources.SqlPassword_}",
-                //#else
-                //                    ConnectionString = $"server={Resources.SqlUrl};Datebase={Resources.SqlDateBase};Uid={Resources.SqlUser};Pwd={Resources.SqlPassword}",
-                //#endif
-                //                    IsAutoCloseConnection = true
-                //                },
-                //           db =>
-                //           {
-                //               //单例参数配置，所有上下文生效
-                //               db.Aop.OnLogExecuting = (sql, pars) =>
-                //               {
-                //                   //Console.WriteLine(sql);//输出sql
-                //               };
-                //           });
-                //                db = sqlSugar;
+                SqlSugarScope sqlSugar = new SqlSugarScope(new ConnectionConfig()
+                {
+                    DbType = DbType.SqlServer,
+
+                    ConnectionString = $"server={Resources.SqlUrl};Uid={Resources.SqlUser_};Pwd={Resources.SqlPassword};Database={Resources.SqlDateBase};",
+
+                    IsAutoCloseConnection = true
+                },
+                db =>
+                {
+                    //单例参数配置，所有上下文生效
+                    db.Aop.OnLogExecuting = (sql, pars) =>
+                    {
+                        //Console.WriteLine(sql);//输出sql
+                    };
+                });
+                db = sqlSugar;
 
                 #endregion 数据库相关
 
