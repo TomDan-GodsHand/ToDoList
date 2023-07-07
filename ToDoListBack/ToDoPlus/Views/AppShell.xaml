@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ToDoPlus.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ToDoPlus"
+    xmlns:views="clr-namespace:ToDoPlus.Views"
+    Shell.FlyoutBehavior="Flyout">
+
+    <Shell.FlyoutHeader>
+        <views:FlyoutHeader />
+    </Shell.FlyoutHeader>
+    <ShellContent
+        Title="我的一天"
+        Icon="sun.png"
+        ContentTemplate="{DataTemplate views:DayPage }" />
+    <ShellContent
+        Title="全部"
+        Icon="all.png"
+        ContentTemplate="{DataTemplate local:MainPage}" />
+    <ShellContent
+        Title="已完成"
+        Icon="compelet.png"
+        ContentTemplate="{DataTemplate local:MainPage}" />
+    <ShellContent
+        Title="已标记"
+        Icon="flag.png"
+        ContentTemplate="{DataTemplate local:MainPage}" />
+    <ShellContent
+        Title="任务"
+        Icon="todo.png"
+        ContentTemplate="{DataTemplate local:MainPage}" />
+</Shell>

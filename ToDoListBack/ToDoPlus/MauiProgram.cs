@@ -1,27 +1,30 @@
-﻿using AppActions.Icons.Maui;
-using CommunityToolkit.Maui;
+﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using ToDoListClient.Platforms.Windows;
-using ToDoListClient.Services;
+using Microsoft.Maui.LifecycleEvents;
 
-namespace ToDoListClient
+namespace ToDoPlus
 {
     public static class MauiProgram
     {
         public static MauiApp CreateMauiApp()
         {
             Global.Ini();
-            Global.Connect();
-            Global.HttpClient = new HttpClient();
-
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
-                .ConfigureEssentials(essentials =>
+                .ConfigureLifecycleEvents(events =>
                 {
-                    essentials
-                        .UseAppActionIcons();
+#if WINDOWS
+                    events.AddWindows(wndLifeCycleBuilder =>
+                    {
+                        wndLifeCycleBuilder.OnWindowCreated(window =>
+                        {
+                            //Global.window = window;
+                            //  window.TryMicaOrAcrylic();
+                        });
+                    });
+#endif
                 })
                 .ConfigureFonts(fonts =>
                 {
@@ -29,15 +32,9 @@ namespace ToDoListClient
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            var services = builder.Services;
-#if WINDOWS
-
-            services.AddSingleton<ITrayService, TrayService>();
-#endif
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-
             return builder.Build();
         }
     }

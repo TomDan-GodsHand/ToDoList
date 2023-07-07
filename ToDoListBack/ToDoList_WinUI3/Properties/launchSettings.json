@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ToDoList_WinUI3 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ToDoList_WinUI3 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

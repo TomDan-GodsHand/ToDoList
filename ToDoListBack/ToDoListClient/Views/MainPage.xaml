@@ -1,25 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ToDoListClient.MainPage"
-             Shell.PresentationMode="NotAnimated">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ToDoListClient.MainPage"
+    xmlns:VM="clr-namespace:ToDoListClient.ViewModels"
+    xmlns:local="clr-namespace:ToDoListClient"
+    xmlns:AppIcon="clr-namespace:AppActions.Icons.Maui;assembly=AppActions.Icons.Maui"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
 
-    <StackLayout>
-        <HorizontalStackLayout
-            HorizontalOptions="Fill"
-            Margin="30">
+    Shell.PresentationMode="NotAnimated"
+
+    x:Name="MainWindow">
+    <ContentPage.Resources>
+
+        <ControlTemplate  x:Key="AddToDoItemEntry">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Button Width="{TemplateBinding FirstButtonWidth }" Grid.Column=" 0" />
+                <Entry Grid.Column="1" Placeholder="dfghjkl" />
+            </Grid>
+        </ControlTemplate>
+    </ContentPage.Resources>
+    <FlyoutBase.ContextFlyout>
+        <MenuFlyout>
+            <MenuFlyoutSubItem Text="排序依据">
+                <MenuFlyoutItem Text="重要性"
+                                Clicked="MenuFlyoutItem_Clicked"
+                                CommandParameter="Important" />
+                <MenuFlyoutItem Text="到期日期"
+                                Clicked="MenuFlyoutItem_Clicked"
+                                CommandParameter="DeadLine" />
+                <MenuFlyoutItem Text="字母顺序"
+                                Clicked="MenuFlyoutItem_Clicked"
+                                CommandParameter="Character" />
+                <MenuFlyoutItem Text="创建日期"
+                                Clicked="MenuFlyoutItem_Clicked"
+                                CommandParameter="CreateTime" />
+            </MenuFlyoutSubItem>
+        </MenuFlyout>
+    </FlyoutBase.ContextFlyout>
+
+    <Grid
+        Padding="0,10"
+        RowSpacing="7"
+
+        BackgroundColor="{AppThemeBinding Dark={StaticResource DarkSecondary},Light={StaticResource Secondary}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid
+            VerticalOptions="Center"
+            Margin="30,0"
+            Grid.Row="0">
             <Label
                 Text="{Binding Name}"
                 FontSize="Large"
                 FontAttributes="Bold"
                 HorizontalOptions="Start"
                 TextColor="{AppThemeBinding Dark={StaticResource White},Light={StaticResource Black}}" />
-            <ImageButton
-                HorizontalOptions="End"
-                Source="more.png" 
-                HeightRequest="1"/>
-        </HorizontalStackLayout>
-        <ScrollView></ScrollView>
-        <VerticalStackLayout></VerticalStackLayout>
-    </StackLayout>
+        </Grid>
+        <ScrollView
+            Margin="30,0"
+            Grid.Row="1"
+            Grid.RowSpan="11"
+            HorizontalOptions="FillAndExpand"
+            x:Name="ToDoItemScrollView">
+        </ScrollView>
+        <VerticalStackLayout
+            Grid.Row="13">
+            <VM:MyEntry FirstButtonWidth="20"  ControlTemplate="{StaticResource AddToDoItemEntry}" />
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

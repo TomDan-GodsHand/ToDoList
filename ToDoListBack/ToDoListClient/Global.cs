@@ -31,8 +31,12 @@ namespace ToDoListClient
                 new ToDoEntity.ToDoGroup(){
                     Name="fasdf",Items = new List<ToDoTaskItem>(),
                     Id = "asdfasdf"
-        }
-    };
+                },
+                new ToDoEntity.ToDoGroup(){
+                    Name="fasdaf",Items = new List<ToDoTaskItem>(),
+                    Id = "asdaafasdf"
+                }
+            };
         }
     }
 }
