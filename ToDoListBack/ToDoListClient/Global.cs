@@ -29,11 +29,11 @@ namespace ToDoListClient
             ToDoGroup = new List<ToDoGroup>
             {
                 new ToDoEntity.ToDoGroup(){
-                    Name="fasdf",Items = new List<ToDoTaskItem>(),
+                    Name="fasdf",Items = new List<ToDoItem>(),
                     Id = "asdfasdf"
                 },
                 new ToDoEntity.ToDoGroup(){
-                    Name="fasdaf",Items = new List<ToDoTaskItem>(),
+                    Name="fasdaf",Items = new List<ToDoItem>(),
                     Id = "asdaafasdf"
                 }
             };

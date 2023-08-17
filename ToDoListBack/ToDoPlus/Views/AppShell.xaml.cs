@@ -16,7 +16,7 @@
                     Thread.Sleep(2000);
                     MainThread.BeginInvokeOnMainThread(() =>
                     {
-                        this.FlyoutBackgroundColor = Application.Current.RequestedTheme == AppTheme.Light ? Global.LightWindowBackGroundColor : Global.DarkWindowBackGroundColor;
+                        FlyoutBackgroundColor = Application.Current.RequestedTheme == AppTheme.Light ? Global.LightWindowBackGroundColor : Global.DarkWindowBackGroundColor;
                     });
                 });
             }

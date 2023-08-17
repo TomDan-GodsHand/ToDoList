@@ -1,8 +1,18 @@
-﻿namespace ToDoEntity
+﻿using Coldairarrow.Util;
+
+namespace ToDoEntity
 {
-    public class ToDoTaskItem
+    public enum SortEnum
     {
-        private int id;
+        CreateDate,
+        Important,
+        DeadLine,
+        FristCode
+    }
+
+    public class ToDoItem
+    {
+        private string id;
         private string name;
         private DateTime createDate;
         private DateTime alertTime;
@@ -15,8 +25,18 @@
         private DateTime completedDate;
         private ToDoItemType type;
 
-        public int Id
-        { get => id; set => id = value; }
+        public string Id
+        {
+            get
+            {
+                if (id == null)
+                {
+                    id = IdHelper.GetId();
+                }
+                return id;
+            }
+            set => id = value;
+        }
 
         /// <summary>
         ///     标题
@@ -62,5 +82,19 @@
 
         public List<ToDoItemStep> Step { get => step; set => step = value; }
         public ToDoItemType Type { get => type; set => type = value; }
+
+        public bool SetCompleted()
+        {
+            try
+            {
+                completed = true;
+                completedDate = DateTime.Now;
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -40,5 +40,24 @@ namespace ToDoPlus
 
 #endif
         }
+        protected override Window CreateWindow(IActivationState activationState)
+        {
+            Window window = base.CreateWindow(activationState);
+            window.SizeChanged += UpdateFlyoutBehaviorIfNeeded;
+            return window;
+        }
+        private const double minPageWidth = 800;
+        private void UpdateFlyoutBehaviorIfNeeded(object sender, EventArgs e)
+        {
+            double currentWidth = ((Window)sender).Width;
+            if (currentWidth <= minPageWidth)
+            {
+                Shell.Current.FlyoutBehavior = FlyoutBehavior.Flyout;
+            }
+            else if (currentWidth > minPageWidth + Shell.Current.FlyoutWidth)
+            {
+                Shell.Current.FlyoutBehavior = FlyoutBehavior.Locked;
+            }
+        }
     }
 }

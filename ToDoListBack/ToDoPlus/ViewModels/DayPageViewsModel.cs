@@ -18,26 +18,55 @@ namespace ToDoPlus.ViewModels
                 execute: () =>
                 {
                     IsRefreshing = true;
-                    ToDoGroup.Items.Add(new ToDoTaskItem()
+                    var item = new ToDoItem()
                     {
-                        Id = 1231321321,
                         Name = EntryText,
-                    });
+                        Completed = false,
+                    };
+                    ToDoGroup.Items.Add(item);
+                    ToDoGroup.UnCompletedItems.Add(item);
                     IsRefreshing = false;
                     OnPropertyChanged();
                     ToDoGroup = ToDoGroup;
                     EntryText = string.Empty;
                 });
+            Task.Run(() =>
+            {
+                Thread.Sleep(2000);
+                ToDoGroup.UnCompletedItems.Add(new ToDoItem { Name = " asdf", Type = ToDoItemType.Task });
+                ToDoGroup.UnCompletedItems.Add(new ToDoItem { Name = " asddsdf", Type = ToDoItemType.Task });
+                ToDoGroup.UnCompletedItems.Add(new ToDoItem { Name = " asdaaaaaaf", Type = ToDoItemType.Task, Important = true });
+
+                foreach (var item in ToDoGroup.UnCompletedItems)
+                {
+                    ToDoGroup.Items.Add(item);
+                }
+                RefreshItemsAsync();
+            });
         }
 
         public ICommand EntryReturnCommand { private set; get; }
         public ICommand RefreshCommand => new Command(async () => await RefreshItemsAsync());
+        public ICommand CompletedCommand => new Command<string>((string id) => CompletedTask(id));
 
         private async Task RefreshItemsAsync()
         {
             IsRefreshing = true;
             await Task.Delay(TimeSpan.FromSeconds(2));
             IsRefreshing = false;
+        }
+
+        public void ChangeSort(SortEnum sortEnum)
+        {
+            IsRefreshing = true;
+            ToDoGroup.ChangeSort(sortEnum);
+            OnPropertyChanged();
+            IsRefreshing = false;
+        }
+
+        private void CompletedTask(string Id)
+        {
+            ToDoGroup.SetCompelet(Id);
         }
 
         public DateTime Datetime

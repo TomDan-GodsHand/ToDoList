@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="IdHelper.Zookeeper" Version="1.5.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Utilities" Version="17.6.36389" />
+  </ItemGroup>
+
 </Project>

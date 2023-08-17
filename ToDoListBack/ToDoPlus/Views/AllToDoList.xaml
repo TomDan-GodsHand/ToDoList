@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoPlus.Views.AllToDoList"
              xmlns:vm="clr-namespace:ToDoPlus.ViewModels"
              xmlns:todoplus="clr-namespace:ToDoPlus"
              xmlns:controls="clr-namespace:ToDoPlus.Controls"
              xmlns:entity="clr-namespace:ToDoEntity;assembly=ToDoEntity"
              xmlns:tookit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="ToDoPlus.Views.DayPage"
              Title="">
-
     <ContentPage.BindingContext>
         <vm:DayPageViewsModel />
     </ContentPage.BindingContext>
@@ -25,12 +24,11 @@
             ShouldExpandLastChild="False">
             <VerticalStackLayout
                 Padding="10"
-                tookit:DockLayout.DockPosition="Left"
-                >
+                tookit:DockLayout.DockPosition="Left">
 
                 <Label
                     FontSize="Title"
-                    Text="我的一天"
+                    Text="全部"
                     x:Name="HeaderLabel" />
                 <Label
                     Text="{Binding Datetime ,StringFormat='{0:M月d日 , dddd}'}" />

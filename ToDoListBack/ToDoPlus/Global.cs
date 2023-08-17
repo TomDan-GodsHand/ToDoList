@@ -29,11 +29,11 @@ namespace ToDoPlus
             ToDoGroup = new List<ToDoGroup>
             {
                 new ToDoEntity.ToDoGroup(){
-                    Name="Day",Items = new List<ToDoTaskItem>(){new ToDoTaskItem { Id =11,Name =" asdf",Type = ToDoItemType.Task},new ToDoTaskItem { Id =12,Name =" asddsdf",Type = ToDoItemType.Task},new ToDoTaskItem { Id =13,Name =" asdaaaaaaf",Type = ToDoItemType.Task} },
+                    Name="Day",
                     Id = "asdfasdf"
                 },
                 new ToDoEntity.ToDoGroup(){
-                    Name="fasdaf",Items = new List<ToDoTaskItem>(),
+                    Name="fasdaf",Items = new List<ToDoItem>(),
                     Id = "asdaafasdf"
                 }
             };
